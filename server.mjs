@@ -11,6 +11,11 @@ import authApi from './api/auth.mjs';
 import messageApi from './api/message.mjs';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 
 const app = express();
@@ -165,12 +170,11 @@ io.on('connection', (socket) => {
 
 // }, 2000)
 
-app.use(express.static("public")); // ya "client/build" if React
+app.use(express.static(path.join(__dirname, './frontend/build')));
 
-const __dirname = path.resolve();
-app.use('/', express.static(path.join(__dirname, './frontend/build')))
-app.use("*" , express.static(path.join(__dirname, './frontend/build')))
-
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './frontend/build/index.html'));
+});
 
 
 server.listen(PORT , () => {
