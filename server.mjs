@@ -165,6 +165,7 @@ io.on('connection', (socket) => {
 
 // }, 2000)
 
+app.use(express.static("public")); // ya "client/build" if React
 
 const __dirname = path.resolve();
 app.use('/', express.static(path.join(__dirname, './frontend/build')))
