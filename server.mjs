@@ -165,11 +165,17 @@ io.on('connection', (socket) => {
 
 // }, 2000)
 
-app.use(express.static("public")); // ya "client/build" if React
+// app.use(express.static("public")); // ya "client/build" if React
 
 const __dirname = path.resolve();
-app.use('/', express.static(path.join(__dirname, './frontend/build')))
-app.use("/*splat" , express.static(path.join(__dirname, './frontend/build')))
+
+// Serve static files
+app.use(express.static(path.join(__dirname, './frontend/build')));
+
+// Catch-all route for React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './frontend/build/index.html'));
+});
 
 
 
