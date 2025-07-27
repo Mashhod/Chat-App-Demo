@@ -1,11 +1,10 @@
 import express from 'express';
 import 'dotenv/config'
 import cors from 'cors'
-import { customAlphabet } from 'nanoid';
 import jwt from 'jsonwebtoken';
 import path from 'path';
 import cookieParser from 'cookie-parser';
-import { userModel, messageModel } from './model.mjs';
+import { userModel } from './model.mjs';
 import mongoose from 'mongoose';
 import authApi from './api/auth.mjs';
 import messageApi from './api/message.mjs';
@@ -41,7 +40,7 @@ app.use(cookieParser());
 app.use('/api/v1', authApi);
 
 
-app.use('/api/v1/*splat', (req, res, next) => {
+app.use('/api/v1', (req, res, next) => {
     console.log("req?.cookies?.Token", req?.cookies?.Token)
     if(!req?.cookies?.Token){
         res.status(401).send({message: "Unathorized"})
